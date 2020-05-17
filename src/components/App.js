@@ -10,8 +10,8 @@ export default function App() {
 
 	/// Render
   return (
-    <div className="App">
 
+    <div className="App">
 			<InputGroup>
 				<Input 
 				id='object'
@@ -46,14 +46,27 @@ function isLetter(letter) {
 	}
 }
 
-function getStroke(character, canvas) {
-	
-	// Canvas limits
-	const limits = { x: canvas.width-25, y: canvas.height-25}
-	console.log(limits.x);
-	
-	// Stroke has a lineTo, x, and y, property
+function setStroke(character, canvas) {
 
+	// Canvas limits; remember stroke is drawn from centerPoint aka 'halfway'
+	const limits = { x: canvas.width/2, y: canvas.height/2}
+
+	// Algorithm for the assignment of varying stroke, x, and y scalar 
+	// There should be 1/2 chance of negation of a co-ordinate (x,y)
+	let strokeWidth, x, y;
+	strokeWidth = Math.floor(Math.random() * Math.floor(15));
+	x = Math.floor(Math.random() * Math.floor(limits.x));
+	y = Math.floor(Math.random() * Math.floor(limits.y));
+	console.log(`${strokeWidth} ${x} ${y}`);
+	
+	// Stroke object has a strokeWidth, x, and y, property
+	const stroke = {
+		strokeWidth: strokeWidth,
+		x: x,
+		y: y
+	}
+
+	return stroke;
 }
 
 function drawFigure(e) {
@@ -73,7 +86,7 @@ function drawFigure(e) {
 	let stroke;
 	characters.forEach(character => {
 		if (isLetter(character)) {
-			getStroke(character, canvas);
+			stroke = setStroke(character, canvas); // Use stroke props within
 			ctx.moveTo(centerPoint, centerPoint);
 			ctx.lineTo(100,100);
 			ctx.stroke();
