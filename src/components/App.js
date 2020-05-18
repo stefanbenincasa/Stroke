@@ -25,7 +25,7 @@ export default function App() {
 
 			<canvas
 			id='canvas'
-			height='500'
+			height='250'
 			width='500'>
 			</canvas> 
 
@@ -36,7 +36,6 @@ export default function App() {
 /// Functions
 function isLetter(letter) {
 	const charCode = letter.toUpperCase().charCodeAt(); 
-	console.log(charCode);
 	if ( (charCode >= 65) && (charCode <= 90) ) {
 		return true;
 	} else {
@@ -52,12 +51,12 @@ function setStroke(character, canvas) {
 	// Calculate difference of input character from lowest possible value
 	charFloor = 65;
 	charValue = character.toUpperCase().charCodeAt() - charFloor + 1;
-	console.log('CharValue : ' + charValue); 
+	console.log('Character Distance from Floor: ' + charValue); 
 
 	// Determine the xy vectors for 'stroke', based on value of 'charValue'
 	for (let i = 1; i <= 2; i++) {
 		sqrtLimit = i === 1 ? Math.sqrt(canvas.height) : Math.sqrt(canvas.width);
-		vectorBase = charValue * (sqrtLimit/26);
+		vectorBase = Math.floor(charValue * (sqrtLimit/26)); // Error
 		stroke.vectors.push(Math.pow(vectorBase, 2)); 
 	}
 
@@ -71,13 +70,13 @@ function drawFigure(e) {
 
 	// Variables
 	const canvas = document.getElementById('canvas');
-	const centerPoint = {x: canvas.width/2, y: canvas.height/2}   
+	const centerPoint = { x: canvas.width/2, y: canvas.height/2 } 
 	const ctx = canvas.getContext('2d');
-	console.log(centerPoint);
 
 	// Extract letters from 'object' input 
 	const userInput = document.getElementById('object').value; 
-	const characters = userInput.split('');
+	const characters = 
+	userInput.split('').filter(character => character !== ' ');
 	console.log(characters);
 
 	// Test for validity of each character, then make the approriate stroke
